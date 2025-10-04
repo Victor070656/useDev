@@ -1,0 +1,5 @@
+[03-Oct-2025 08:54:18 UTC] PHP Fatal error:  Uncaught Error: Class "mysqli" not found in /opt/lampp/htdocs/useDev2/includes/db.php:8
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/database/run_migrations.php(9): get_db_connection()
+#1 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 8
