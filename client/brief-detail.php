@@ -14,9 +14,17 @@ if (!$briefId) {
 
 $db = get_db_connection();
 
+// Get client profile
+$stmt = db_prepare("SELECT id FROM client_profiles WHERE user_id = ?");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+$clientProfile = $result->fetch_assoc();
+$stmt->close();
+
 // Get brief details
-$stmt = db_prepare("SELECT * FROM project_briefs WHERE id = ? AND client_id = ?");
-$stmt->bind_param('ii', $briefId, $userId);
+$stmt = db_prepare("SELECT * FROM project_briefs WHERE id = ? AND client_profile_id = ?");
+$stmt->bind_param('ii', $briefId, $clientProfile['id']);
 $stmt->execute();
 $brief = $stmt->get_result()->fetch_assoc();
 $stmt->close();
@@ -31,9 +39,9 @@ if (!$brief) {
 $stmt = db_prepare("
     SELECT p.*, u.first_name, u.last_name, cp.hourly_rate, cp.rating_average
     FROM proposals p
-    JOIN users u ON p.creator_id = u.id
-    LEFT JOIN creator_profiles cp ON p.creator_id = cp.user_id
-    WHERE p.brief_id = ?
+    JOIN creator_profiles cp ON p.creator_profile_id = cp.id
+    JOIN users u ON cp.user_id = u.id
+    WHERE p.project_brief_id = ?
     ORDER BY p.created_at DESC
 ");
 $stmt->bind_param('i', $briefId);
@@ -42,12 +50,26 @@ $proposals = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
 $pageTitle = escape_output($brief['title']) . ' - ' . APP_NAME;
-require_once '../includes/header.php';
+include_once '../includes/header-client.php';
+
 ?>
 
-<div class="max-w-7xl mx-auto px-4 py-8">
-    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-4"><?= escape_output($brief['title']) ?></h1>
+<div class="min-h-screen flex bg-[#0f0e16] text-gray-100">
+    <?php include_once '../includes/sidebar-client.php'; ?>
+    <!-- Dashboard Container -->
+    <div class="flex-1 flex flex-col transition-all duration-300 md:ml-64">
+        <?php
+        include_once '../includes/topbar-client.php';
+        ?>
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"><?= escape_output($brief['title']) ?></h1>
+                <p class="text-gray-400 mt-2">Project brief details and proposals</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
         <div class="flex items-center space-x-6 text-sm text-gray-500 mb-6">
             <span>Budget: <strong><?= format_money($brief['budget']) ?></strong></span>
             <span>Timeline: <strong><?= escape_output($brief['timeline']) ?></strong></span>
@@ -128,11 +150,12 @@ require_once '../includes/header.php';
                                 </a>
                             </div>
                         <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once '../includes/footer2.php'; ?>

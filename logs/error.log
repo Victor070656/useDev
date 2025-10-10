@@ -3,3 +3,87 @@ Stack trace:
 #0 /opt/lampp/htdocs/useDev2/database/run_migrations.php(9): get_db_connection()
 #1 {main}
   thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 8
+[09-Oct-2025 20:08:08 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'pb.client_id' in 'on clause' in /opt/lampp/htdocs/useDev2/includes/db.php:29
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(29): mysqli->query('\n    SELECT pb....')
+#1 /opt/lampp/htdocs/useDev2/admin/briefs.php(9): db_query('\n    SELECT pb....')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 29
+[09-Oct-2025 20:18:03 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/admin/briefs.php on line 48
+[09-Oct-2025 20:18:03 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/admin/briefs.php on line 48
+[09-Oct-2025 20:18:03 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/admin/briefs.php on line 48
+[09-Oct-2025 20:18:03 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/admin/briefs.php on line 48
+[09-Oct-2025 20:18:19 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 't.user_id' in 'on clause' in /opt/lampp/htdocs/useDev2/includes/db.php:29
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(29): mysqli->query('\n    SELECT t.*...')
+#1 /opt/lampp/htdocs/useDev2/admin/transactions.php(9): db_query('\n    SELECT t.*...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 29
+[09-Oct-2025 20:18:46 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/admin/briefs.php on line 48
+[09-Oct-2025 20:18:46 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/admin/briefs.php on line 48
+[09-Oct-2025 20:18:46 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/admin/briefs.php on line 48
+[09-Oct-2025 20:18:46 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/admin/briefs.php on line 48
+[09-Oct-2025 20:31:25 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 't.user_id' in 'on clause' in /opt/lampp/htdocs/useDev2/includes/db.php:29
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(29): mysqli->query('\n    SELECT t.*...')
+#1 /opt/lampp/htdocs/useDev2/admin/transactions.php(9): db_query('\n    SELECT t.*...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 29
+[09-Oct-2025 20:53:05 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.client_id' in 'where clause' in /opt/lampp/htdocs/useDev2/includes/db.php:40
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(40): mysqli->prepare('\n    SELECT c.*...')
+#1 /opt/lampp/htdocs/useDev2/client/contracts.php(10): db_prepare('\n    SELECT c.*...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 40
+[09-Oct-2025 20:57:37 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'pb.client_id' in 'where clause' in /opt/lampp/htdocs/useDev2/includes/db.php:40
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(40): mysqli->prepare('\n    SELECT pb....')
+#1 /opt/lampp/htdocs/useDev2/client/briefs.php(10): db_prepare('\n    SELECT pb....')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 40
+[09-Oct-2025 21:25:17 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:25:17 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:25:37 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.title' in 'field list' in /opt/lampp/htdocs/useDev2/includes/db.php:40
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(40): mysqli->prepare('\n    SELECT t.*...')
+#1 /opt/lampp/htdocs/useDev2/client/payments.php(18): db_prepare('\n    SELECT t.*...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 40
+[09-Oct-2025 21:30:36 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.title' in 'field list' in /opt/lampp/htdocs/useDev2/includes/db.php:40
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(40): mysqli->prepare('\n    SELECT t.*...')
+#1 /opt/lampp/htdocs/useDev2/client/payments.php(18): db_prepare('\n    SELECT t.*...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 40
+[09-Oct-2025 21:30:38 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.title' in 'field list' in /opt/lampp/htdocs/useDev2/includes/db.php:40
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(40): mysqli->prepare('\n    SELECT t.*...')
+#1 /opt/lampp/htdocs/useDev2/client/payments.php(18): db_prepare('\n    SELECT t.*...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 40
+[09-Oct-2025 21:30:40 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:40 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:42 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:42 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:43 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:43 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:43 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:43 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:43 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:43 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:43 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:30:43 UTC] PHP Warning:  Undefined array key "budget" in /opt/lampp/htdocs/useDev2/client/briefs.php on line 76
+[09-Oct-2025 21:53:37 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.title' in 'field list' in /opt/lampp/htdocs/useDev2/includes/db.php:40
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(40): mysqli->prepare('\n    SELECT t.*...')
+#1 /opt/lampp/htdocs/useDev2/client/payments.php(18): db_prepare('\n    SELECT t.*...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 40
+[09-Oct-2025 21:56:21 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.title' in 'field list' in /opt/lampp/htdocs/useDev2/includes/db.php:40
+Stack trace:
+#0 /opt/lampp/htdocs/useDev2/includes/db.php(40): mysqli->prepare('\n    SELECT t.*...')
+#1 /opt/lampp/htdocs/useDev2/client/payments.php(18): db_prepare('\n    SELECT t.*...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/useDev2/includes/db.php on line 40
+[09-Oct-2025 21:57:54 UTC] PHP Warning:  Trying to access array offset on value of type null in /opt/lampp/htdocs/useDev2/includes/topbar.php on line 15
+[09-Oct-2025 21:57:54 UTC] PHP Warning:  Trying to access array offset on value of type null in /opt/lampp/htdocs/useDev2/includes/topbar.php on line 51

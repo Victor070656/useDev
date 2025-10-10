@@ -43,23 +43,32 @@ $stmt->execute();
 $total = $stmt->get_result()->fetch_assoc()['total'];
 $stmt->close();
 
+// Get creator profile
+$stmt = db_prepare("SELECT id FROM creator_profiles WHERE user_id = ?");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+$creatorProfile = $result->fetch_assoc();
+$stmt->close();
+
 // Get briefs
 $sql = "
     SELECT
         pb.*,
         u.first_name,
         u.last_name,
-        (SELECT COUNT(*) FROM proposals WHERE brief_id = pb.id) as proposal_count,
-        (SELECT COUNT(*) FROM proposals WHERE brief_id = pb.id AND creator_id = ?) as user_proposal_count
+        (SELECT COUNT(*) FROM proposals WHERE project_brief_id = pb.id) as proposal_count,
+        (SELECT COUNT(*) FROM proposals WHERE project_brief_id = pb.id AND creator_profile_id = ?) as user_proposal_count
     FROM project_briefs pb
-    JOIN users u ON pb.client_id = u.id
+    JOIN client_profiles cp ON pb.client_profile_id = cp.id
+    JOIN users u ON cp.user_id = u.id
     WHERE $whereClause
     ORDER BY pb.created_at DESC
     LIMIT ? OFFSET ?
 ";
 
 $stmt = db_prepare($sql);
-$allParams = array_merge([$userId], $params, [$perPage, $offset]);
+$allParams = array_merge([$creatorProfile['id']], $params, [$perPage, $offset]);
 $allTypes = 'i' . $types . 'ii';
 $stmt->bind_param($allTypes, ...$allParams);
 $stmt->execute();

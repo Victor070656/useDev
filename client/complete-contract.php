@@ -13,7 +13,7 @@ if (!verify_csrf_token(get_post('csrf_token'))) {
     exit;
 }
 
-$clientId = get_user_id();
+$userId = get_user_id();
 $contractId = sanitize_input(get_post('contract_id'));
 
 if (!$contractId || !is_numeric($contractId)) {
@@ -24,14 +24,22 @@ if (!$contractId || !is_numeric($contractId)) {
 
 $db = get_db_connection();
 
+// Get client profile
+$stmt = db_prepare("SELECT id FROM client_profiles WHERE user_id = ?");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+$clientProfile = $result->fetch_assoc();
+$stmt->close();
+
 // Get contract details and verify ownership
 $stmt = db_prepare("
     SELECT c.*, pb.title as brief_title
     FROM contracts c
-    JOIN project_briefs pb ON c.brief_id = pb.id
-    WHERE c.id = ? AND c.client_id = ?
+    JOIN project_briefs pb ON c.project_brief_id = pb.id
+    WHERE c.id = ? AND c.client_profile_id = ?
 ");
-$stmt->bind_param('ii', $contractId, $clientId);
+$stmt->bind_param('ii', $contractId, $clientProfile['id']);
 $stmt->execute();
 $contract = $stmt->get_result()->fetch_assoc();
 $stmt->close();
@@ -56,13 +64,13 @@ $stmt->bind_param('i', $contractId);
 if ($stmt->execute()) {
     // Update brief status
     $stmt2 = db_prepare("UPDATE project_briefs SET status = 'completed' WHERE id = ?");
-    $stmt2->bind_param('i', $contract['brief_id']);
+    $stmt2->bind_param('i', $contract['project_brief_id']);
     $stmt2->execute();
     $stmt2->close();
 
     // Log activity
-    log_activity($clientId, 'contract_completed', 'contract', $contractId);
-    log_activity($contract['creator_id'], 'contract_completed_by_client', 'contract', $contractId);
+    log_activity($userId, 'contract_completed', 'contract', $contractId);
+    log_activity($contract['creator_profile_id'], 'contract_completed_by_client', 'contract', $contractId);
 
     set_flash('success', 'Contract marked as completed');
 } else {

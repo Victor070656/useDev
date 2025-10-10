@@ -10,14 +10,14 @@
 
     <!-- Logo -->
     <div class="flex items-center justify-between mb-6">
-        <a href="<?= url('/admin/index.php') ?>" class="flex items-center gap-3">
+        <a href="<?= url('/client/index.php') ?>" class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg flex items-center justify-center"
                 style="background: linear-gradient(135deg, #240046 0%, #7103a0 100%);">
                 <span class="font-bold text-white">DA</span>
             </div>
             <div>
                 <div class="font-semibold text-white"><?= APP_NAME ?></div>
-                <div class="text-xs text-gray-400">Admin</div>
+                <div class="text-xs text-gray-400">Client</div>
             </div>
         </a>
     </div>
@@ -26,12 +26,12 @@
     <nav class="flex-1 space-y-1">
         <?php
         $navLinks = [
-            ['url' => '/admin/index.php', 'icon' => 'bx-grid-alt', 'label' => 'Dashboard', 'page' => 'index.php'],
-            ['url' => '/admin/users.php', 'icon' => 'bx-user-circle', 'label' => 'Users', 'page' => 'users.php'],
-            ['url' => '/admin/briefs.php', 'icon' => 'bx-file', 'label' => 'Project Briefs', 'page' => 'briefs.php'],
-            ['url' => '/admin/transactions.php', 'icon' => 'bx-credit-card', 'label' => 'Transactions', 'page' => 'transactions.php'],
-            ['url' => '/admin/activity.php', 'icon' => 'bx-bar-chart-alt-2', 'label' => 'Activity Logs', 'page' => 'activity.php'],
-            ['url' => '/admin/settings.php', 'icon' => 'bx-cog', 'label' => 'Settings', 'page' => 'settings.php'],
+            ['url' => '/client/index.php', 'icon' => 'bx-grid-alt', 'label' => 'Dashboard', 'page' => 'index.php'],
+            ['url' => '/client/briefs.php', 'icon' => 'bx-file', 'label' => 'My Briefs', 'page' => 'briefs.php'],
+            ['url' => '/client/create-brief.php', 'icon' => 'bx-plus-circle', 'label' => 'Create Brief', 'page' => 'create-brief.php'],
+            ['url' => '/client/contracts.php', 'icon' => 'bx-briefcase', 'label' => 'Contracts', 'page' => 'contracts.php'],
+            ['url' => '/client/payments.php', 'icon' => 'bx-wallet', 'label' => 'Payments', 'page' => 'payments.php'],
+            ['url' => '/messages/inbox.php', 'icon' => 'bx-message-square-detail', 'label' => 'Messages', 'page' => 'inbox.php'],
         ];
         $currentPage = basename($_SERVER['PHP_SELF']);
         ?>

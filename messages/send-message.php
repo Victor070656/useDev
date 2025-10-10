@@ -48,7 +48,7 @@ if (!$receiver) {
 
 // Insert message
 $stmt = db_prepare("
-    INSERT INTO messages (sender_id, receiver_id, subject, body, is_read, created_at)
+    INSERT INTO messages (sender_user_id, recipient_user_id, subject, message, is_read, created_at)
     VALUES (?, ?, ?, ?, 0, NOW())
 ");
 $stmt->bind_param('iiss', $senderId, $receiverId, $subject, $body);

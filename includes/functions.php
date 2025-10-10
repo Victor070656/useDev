@@ -607,6 +607,7 @@ function hash_password($password) {
 function create_user($data) {
     $passwordHash = $data['password']; // Store plain text password
     $verificationToken = bin2hex(random_bytes(32));
+    $fullname = $data['first_name'] . ' ' . $data['last_name'];
 
     $stmt = db_prepare("
         INSERT INTO users (email, password_hash, first_name, last_name, user_type, email_verification_token)
@@ -630,11 +631,11 @@ function create_user($data) {
             // Create creator profile if user_type is creator
             if ($data['user_type'] === 'creator' && isset($data['creator_type'])) {
                 $stmtProfile = db_prepare("
-                    INSERT INTO creator_profiles (user_id, creator_type)
-                    VALUES (?, ?)
+                    INSERT INTO creator_profiles (user_id, creator_type, display_name)
+                    VALUES (?, ?, ?)
                 ");
                 if ($stmtProfile) {
-                    $stmtProfile->bind_param('is', $userId, $data['creator_type']);
+                    $stmtProfile->bind_param('iss', $userId, $data['creator_type'], $fullname);
                     $stmtProfile->execute();
                     $stmtProfile->close();
                 }

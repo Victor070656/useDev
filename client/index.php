@@ -94,12 +94,18 @@ $stmt->close();
 
 $user = find_user_by_id($userId);
 $pageTitle = 'Client Dashboard - ' . APP_NAME;
-require_once '../includes/header.php';
+include_once '../includes/header-client.php';
+
 ?>
 
-<!-- Dashboard Container -->
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-purple-50/20 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen flex bg-[#0f0e16] text-gray-100">
+    <?php include_once '../includes/sidebar-client.php'; ?>
+    <!-- Dashboard Container -->
+    <div class="flex-1 flex flex-col transition-all duration-300 md:ml-64">
+        <?php
+        include_once '../includes/topbar-client.php';
+        ?>
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
 
         <!-- Welcome Section -->
         <div class="mb-8">
@@ -290,5 +296,6 @@ require_once '../includes/header.php';
         </div>
     </div>
 </div>
+</div>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once '../includes/footer2.php'; ?>

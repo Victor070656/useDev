@@ -6,39 +6,61 @@ require_role('client');
 $userId = get_user_id();
 $db = get_db_connection();
 
+// Get client profile
+$stmt = db_prepare("SELECT id FROM client_profiles WHERE user_id = ?");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+$clientProfile = $result->fetch_assoc();
+$stmt->close();
+
 // Get active contracts
 $stmt = db_prepare("
     SELECT c.*, u.first_name, u.last_name, pb.title as brief_title
     FROM contracts c
-    JOIN users u ON c.creator_id = u.id
-    JOIN project_briefs pb ON c.brief_id = pb.id
-    WHERE c.client_id = ?
+    JOIN creator_profiles cp ON c.creator_profile_id = cp.id
+    JOIN users u ON cp.user_id = u.id
+    JOIN project_briefs pb ON c.project_brief_id = pb.id
+    WHERE c.client_profile_id = ?
     ORDER BY c.created_at DESC
 ");
-$stmt->bind_param('i', $userId);
+$stmt->bind_param('i', $clientProfile['id']);
 $stmt->execute();
 $contracts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
 $pageTitle = 'My Contracts - ' . APP_NAME;
-require_once '../includes/header.php';
+include_once '../includes/header-client.php';
+
 ?>
 
-<div class="max-w-7xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">My Contracts</h1>
+<div class="min-h-screen flex bg-[#0f0e16] text-gray-100">
+    <?php include_once '../includes/sidebar-client.php'; ?>
+    <!-- Dashboard Container -->
+    <div class="flex-1 flex flex-col transition-all duration-300 md:ml-64">
+        <?php
+        include_once '../includes/topbar-client.php';
+        ?>
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
 
-    <div class="space-y-6">
-        <?php if (empty($contracts)): ?>
-            <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
-                <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">No contracts yet</h3>
-                <p class="text-gray-600">Once you accept a proposal, a contract will be created here</p>
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">My Contracts</h1>
+                <p class="text-gray-400 mt-2">Manage your active and completed contracts</p>
             </div>
-        <?php else: ?>
-            <?php foreach ($contracts as $contract): ?>
-                <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+
+            <div class="space-y-6">
+                <?php if (empty($contracts)): ?>
+                    <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
+                        <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">No contracts yet</h3>
+                        <p class="text-gray-600">Once you accept a proposal, a contract will be created here</p>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($contracts as $contract): ?>
+                        <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
                     <div class="flex items-start justify-between mb-4">
                         <div class="flex-1">
                             <h3 class="text-xl font-bold text-gray-900 mb-2"><?= escape_output($contract['brief_title']) ?></h3>
@@ -55,7 +77,7 @@ require_once '../includes/header.php';
                             </div>
                         </div>
                         <div class="text-right">
-                            <div class="text-2xl font-bold text-purple-600"><?= format_money($contract['amount']) ?></div>
+                            <div class="text-2xl font-bold text-purple-600"><?= format_money($contract['contract_amount']) ?></div>
                             <span class="px-3 py-1 rounded-full text-sm font-semibold inline-block mt-2
                                 <?= $contract['status'] === 'active' ? 'bg-green-100 text-green-700' : '' ?>
                                 <?= $contract['status'] === 'completed' ? 'bg-blue-100 text-blue-700' : '' ?>
@@ -105,10 +127,12 @@ require_once '../includes/header.php';
                             </form>
                         <?php endif; ?>
                     </div>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
 </div>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once '../includes/footer2.php'; ?>

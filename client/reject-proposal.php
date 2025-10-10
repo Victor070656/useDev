@@ -13,7 +13,7 @@ if (!verify_csrf_token(get_post('csrf_token'))) {
     exit;
 }
 
-$clientId = get_user_id();
+$userId = get_user_id();
 $proposalId = sanitize_input(get_post('proposal_id'));
 
 if (!$proposalId || !is_numeric($proposalId)) {
@@ -24,16 +24,24 @@ if (!$proposalId || !is_numeric($proposalId)) {
 
 $db = get_db_connection();
 
+// Get client profile
+$stmt = db_prepare("SELECT id FROM client_profiles WHERE user_id = ?");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+$clientProfile = $result->fetch_assoc();
+$stmt->close();
+
 // Get proposal details and verify ownership
 $stmt = db_prepare("
     SELECT
         p.*,
-        pb.client_id
+        pb.client_profile_id
     FROM proposals p
-    JOIN project_briefs pb ON p.brief_id = pb.id
-    WHERE p.id = ? AND pb.client_id = ?
+    JOIN project_briefs pb ON p.project_brief_id = pb.id
+    WHERE p.id = ? AND pb.client_profile_id = ?
 ");
-$stmt->bind_param('ii', $proposalId, $clientId);
+$stmt->bind_param('ii', $proposalId, $clientProfile['id']);
 $stmt->execute();
 $proposal = $stmt->get_result()->fetch_assoc();
 $stmt->close();
@@ -47,7 +55,7 @@ if (!$proposal) {
 // Check if proposal is pending
 if ($proposal['status'] !== 'pending') {
     set_flash('error', 'This proposal has already been processed');
-    redirect('/client/brief-detail.php?id=' . $proposal['brief_id']);
+    redirect('/client/brief-detail.php?id=' . $proposal['project_brief_id']);
     exit;
 }
 
@@ -56,11 +64,11 @@ $stmt = db_prepare("UPDATE proposals SET status = 'rejected' WHERE id = ?");
 $stmt->bind_param('i', $proposalId);
 
 if ($stmt->execute()) {
-    log_activity($clientId, 'proposal_rejected', 'proposal', $proposalId);
+    log_activity($userId, 'proposal_rejected', 'proposal', $proposalId);
     set_flash('success', 'Proposal rejected');
 } else {
     set_flash('error', 'Failed to reject proposal');
 }
 
 $stmt->close();
-redirect('/client/brief-detail.php?id=' . $proposal['brief_id']);
+redirect('/client/brief-detail.php?id=' . $proposal['project_brief_id']);

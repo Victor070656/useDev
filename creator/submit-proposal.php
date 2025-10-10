@@ -47,7 +47,7 @@ if (!empty($errors)) {
 $db = get_db_connection();
 
 // Check if brief exists and is open
-$stmt = db_prepare("SELECT id, client_id, budget_min, budget_max, status FROM project_briefs WHERE id = ?");
+$stmt = db_prepare("SELECT id, client_profile_id, budget_min, budget_max, status FROM project_briefs WHERE id = ?");
 $stmt->bind_param('i', $briefId);
 $stmt->execute();
 $brief = $stmt->get_result()->fetch_assoc();
@@ -66,8 +66,8 @@ if ($brief['status'] !== 'open') {
 }
 
 // Check if user already submitted a proposal
-$stmt = db_prepare("SELECT id FROM proposals WHERE brief_id = ? AND creator_id = ?");
-$stmt->bind_param('ii', $briefId, $creatorId);
+$stmt = db_prepare("SELECT id FROM proposals WHERE project_brief_id = ? AND creator_profile_id = ?");
+$stmt->bind_param('ii', $briefId, $creatorProfileId);
 $stmt->execute();
 $existing = $stmt->get_result()->fetch_assoc();
 $stmt->close();
@@ -90,10 +90,10 @@ if ($amountInCents < $brief['budget_min'] || $amountInCents > $brief['budget_max
 
 // Insert proposal
 $stmt = db_prepare("
-    INSERT INTO proposals (brief_id, creator_id, amount, timeline, cover_letter, status, created_at)
+    INSERT INTO proposals (project_brief_id, creator_profile_id, proposed_budget, proposed_timeline, cover_letter, status, created_at)
     VALUES (?, ?, ?, ?, ?, 'pending', NOW())
 ");
-$stmt->bind_param('iiiss', $briefId, $creatorId, $amountInCents, $timeline, $coverLetter);
+$stmt->bind_param('iiiss', $briefId, $creatorProfileId, $amountInCents, $timeline, $coverLetter);
 
 if ($stmt->execute()) {
     $proposalId = $db->insert_id;

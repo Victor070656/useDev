@@ -12,6 +12,14 @@ if (!$briefId) {
 $userId = get_user_id();
 $db = get_db_connection();
 
+// Get creator profile
+$stmt = db_prepare("SELECT id FROM creator_profiles WHERE user_id = ?");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+$creatorProfile = $result->fetch_assoc();
+$stmt->close();
+
 // Get brief details
 $stmt = db_prepare("
     SELECT
@@ -19,9 +27,11 @@ $stmt = db_prepare("
         u.first_name,
         u.last_name,
         u.email,
-        (SELECT COUNT(*) FROM proposals WHERE brief_id = pb.id) as proposal_count
+        cp.id as client_profile_id,
+        (SELECT COUNT(*) FROM proposals WHERE project_brief_id = pb.id) as proposal_count
     FROM project_briefs pb
-    JOIN users u ON pb.client_id = u.id
+    JOIN client_profiles cp ON pb.client_profile_id = cp.id
+    JOIN users u ON cp.user_id = u.id
     WHERE pb.id = ? AND pb.status != 'draft'
 ");
 $stmt->bind_param('i', $briefId);
@@ -36,18 +46,20 @@ if (!$brief) {
 }
 
 // Check if user already submitted a proposal
-$stmt = db_prepare("SELECT id, status, amount, cover_letter, created_at FROM proposals WHERE brief_id = ? AND creator_id = ?");
-$stmt->bind_param('ii', $briefId, $userId);
+$stmt = db_prepare("SELECT id, status, proposed_budget, cover_letter, created_at FROM proposals WHERE project_brief_id = ? AND creator_profile_id = ?");
+$stmt->bind_param('ii', $briefId, $creatorProfile['id']);
 $stmt->execute();
 $existingProposal = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
-// Get required skills
-$stmt = db_prepare("SELECT skill_name FROM brief_skills WHERE brief_id = ?");
-$stmt->bind_param('i', $briefId);
-$stmt->execute();
-$skills = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
+// Get required skills - parse from required_skills column
+$skills = [];
+if (!empty($brief['required_skills'])) {
+    $skillsArray = explode(',', $brief['required_skills']);
+    foreach ($skillsArray as $skill) {
+        $skills[] = ['skill_name' => trim($skill)];
+    }
+}
 
 $pageTitle = $brief['title'] . ' - ' . APP_NAME;
 require_once '../includes/header.php';
@@ -103,7 +115,7 @@ require_once '../includes/header.php';
                         <div class="flex items-center justify-between mb-3">
                             <div>
                                 <span class="text-sm text-white/70">Proposed Amount</span>
-                                <p class="text-2xl font-bold"><?= format_money($existingProposal['amount']) ?></p>
+                                <p class="text-2xl font-bold"><?= format_money($existingProposal['proposed_budget']) ?></p>
                             </div>
                             <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-semibold">
                                 <?= ucfirst($existingProposal['status']) ?>
@@ -173,7 +185,7 @@ require_once '../includes/header.php';
                     </div>
                 </div>
 
-                <a href="/messages/thread.php?user_id=<?= $brief['client_id'] ?>" class="block w-full px-4 py-2 border border-purple-600 text-purple-600 text-center rounded-full font-semibold hover:bg-purple-50 transition">
+                <a href="/messages/thread.php?profile_id=<?= $brief['client_profile_id'] ?>" class="block w-full px-4 py-2 border border-purple-600 text-purple-600 text-center rounded-full font-semibold hover:bg-purple-50 transition">
                     Contact Client
                 </a>
             </div>
