@@ -62,144 +62,150 @@ if (!empty($brief['required_skills'])) {
 }
 
 $pageTitle = $brief['title'] . ' - ' . APP_NAME;
-require_once '../includes/header.php';
+require_once '../includes/header2.php';
 ?>
 
-<div class="max-w-7xl mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-6">
-            <!-- Brief Details -->
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <div class="flex items-center space-x-2 text-sm text-gray-600 mb-4">
-                    <a href="/browse.php" class="hover:text-purple-600">Browse</a>
-                    <span>/</span>
-                    <span class="text-gray-900"><?= escape_output($brief['title']) ?></span>
-                </div>
+<div class="min-h-screen flex bg-[#0f0e16] text-gray-100">
+    <?php require_once __DIR__ . '/../includes/sidebar.php'; ?>
+    <div class="flex-1 flex flex-col transition-all duration-300 md:ml-64">
+        <?php include_once '../includes/topbar.php'; ?>
+        <div class="px-12 py-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Brief Details -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <div class="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+                            <a href="briefs.php" class="hover:text-purple-600">Browse Projects</a>
+                            <span>/</span>
+                            <span class="text-gray-900"><?= escape_output($brief['title']) ?></span>
+                        </div>
 
-                <h1 class="text-3xl font-bold text-gray-900 mb-4"><?= escape_output($brief['title']) ?></h1>
+                        <h1 class="text-3xl font-bold text-gray-900 mb-4"><?= escape_output($brief['title']) ?></h1>
 
-                <div class="flex flex-wrap items-center gap-4 mb-6">
-                    <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">
-                        <?= ucfirst($brief['project_type']) ?>
-                    </span>
-                    <span class="px-3 py-1 <?= $brief['status'] === 'open' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' ?> rounded-full text-sm font-semibold">
-                        <?= ucfirst($brief['status']) ?>
-                    </span>
-                    <span class="text-sm text-gray-600">
-                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        Posted <?= time_ago($brief['created_at']) ?>
-                    </span>
-                    <span class="text-sm text-gray-600">
-                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                        <?= $brief['proposal_count'] ?> proposal<?= $brief['proposal_count'] !== 1 ? 's' : '' ?>
-                    </span>
-                </div>
-
-                <div class="prose max-w-none">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Description</h3>
-                    <p class="text-gray-700 whitespace-pre-line"><?= escape_output($brief['description']) ?></p>
-                </div>
-            </div>
-
-            <!-- Your Proposal -->
-            <?php if ($existingProposal): ?>
-                <div class="bg-gradient-to-r from-purple-600 to-purple-800 rounded-2xl shadow-lg p-6 text-white">
-                    <h2 class="text-2xl font-bold mb-4">Your Proposal</h2>
-
-                    <div class="bg-white/10 backdrop-blur rounded-xl p-4 mb-4">
-                        <div class="flex items-center justify-between mb-3">
-                            <div>
-                                <span class="text-sm text-white/70">Proposed Amount</span>
-                                <p class="text-2xl font-bold"><?= format_money($existingProposal['proposed_budget']) ?></p>
-                            </div>
-                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-semibold">
-                                <?= ucfirst($existingProposal['status']) ?>
+                        <div class="flex flex-wrap items-center gap-4 mb-6">
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">
+                                <?= ucfirst($brief['project_type']) ?>
+                            </span>
+                            <span class="px-3 py-1 <?= $brief['status'] === 'open' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' ?> rounded-full text-sm font-semibold">
+                                <?= ucfirst($brief['status']) ?>
+                            </span>
+                            <span class="text-sm text-gray-600">
+                                <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Posted <?= time_ago($brief['created_at']) ?>
+                            </span>
+                            <span class="text-sm text-gray-600">
+                                <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <?= $brief['proposal_count'] ?> proposal<?= $brief['proposal_count'] !== 1 ? 's' : '' ?>
                             </span>
                         </div>
 
-                        <div>
-                            <span class="text-sm text-white/70 block mb-2">Cover Letter</span>
-                            <p class="text-white/90 whitespace-pre-line"><?= escape_output($existingProposal['cover_letter']) ?></p>
+                        <div class="prose max-w-none">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Description</h3>
+                            <p class="text-gray-700 whitespace-pre-line"><?= escape_output($brief['description']) ?></p>
                         </div>
                     </div>
 
-                    <p class="text-sm text-white/70">Submitted <?= time_ago($existingProposal['created_at']) ?></p>
-                </div>
-            <?php endif; ?>
-        </div>
+                    <!-- Your Proposal -->
+                    <?php if ($existingProposal): ?>
+                        <div class="bg-gradient-to-r from-purple-600 to-purple-800 rounded-2xl shadow-lg p-6 text-white">
+                            <h2 class="text-2xl font-bold mb-4">Your Proposal</h2>
 
-        <!-- Sidebar -->
-        <div class="space-y-6">
-            <!-- Budget & Timeline -->
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Project Details</h3>
+                            <div class="bg-white/10 backdrop-blur rounded-xl p-4 mb-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <span class="text-sm text-white/70">Proposed Amount</span>
+                                        <p class="text-2xl font-bold"><?= format_money($existingProposal['proposed_budget']) ?></p>
+                                    </div>
+                                    <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-semibold">
+                                        <?= ucfirst($existingProposal['status']) ?>
+                                    </span>
+                                </div>
 
-                <div class="space-y-4">
-                    <div>
-                        <span class="text-sm text-gray-600 block mb-1">Budget</span>
-                        <p class="text-2xl font-bold text-purple-600">
-                            <?= format_money($brief['budget_min']) ?> - <?= format_money($brief['budget_max']) ?>
-                        </p>
-                    </div>
+                                <div>
+                                    <span class="text-sm text-white/70 block mb-2">Cover Letter</span>
+                                    <p class="text-white/90 whitespace-pre-line"><?= escape_output($existingProposal['cover_letter']) ?></p>
+                                </div>
+                            </div>
 
-                    <?php if ($brief['timeline']): ?>
-                        <div>
-                            <span class="text-sm text-gray-600 block mb-1">Timeline</span>
-                            <p class="text-lg font-semibold text-gray-900"><?= escape_output($brief['timeline']) ?></p>
+                            <p class="text-sm text-white/70">Submitted <?= time_ago($existingProposal['created_at']) ?></p>
                         </div>
                     <?php endif; ?>
+                </div>
 
-                    <?php if (!empty($skills)): ?>
-                        <div>
-                            <span class="text-sm text-gray-600 block mb-2">Required Skills</span>
-                            <div class="flex flex-wrap gap-2">
-                                <?php foreach ($skills as $skill): ?>
-                                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
-                                        <?= escape_output($skill['skill_name']) ?>
-                                    </span>
-                                <?php endforeach; ?>
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Budget & Timeline -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Project Details</h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <span class="text-sm text-gray-600 block mb-1">Budget</span>
+                                <p class="text-2xl font-bold text-purple-600">
+                                    <?= format_money($brief['budget_min']) ?> - <?= format_money($brief['budget_max']) ?>
+                                </p>
+                            </div>
+
+                            <?php if ($brief['timeline']): ?>
+                                <div>
+                                    <span class="text-sm text-gray-600 block mb-1">Timeline</span>
+                                    <p class="text-lg font-semibold text-gray-900"><?= escape_output($brief['timeline']) ?></p>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($skills)): ?>
+                                <div>
+                                    <span class="text-sm text-gray-600 block mb-2">Required Skills</span>
+                                    <div class="flex flex-wrap gap-2">
+                                        <?php foreach ($skills as $skill): ?>
+                                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                                                <?= escape_output($skill['skill_name']) ?>
+                                            </span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Client Info -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">About the Client</h3>
+
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-purple-800 flex items-center justify-center text-white font-bold">
+                                <?= strtoupper(substr($brief['first_name'], 0, 1) . substr($brief['last_name'], 0, 1)) ?>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-900">
+                                    <?= escape_output($brief['first_name'] . ' ' . $brief['last_name']) ?>
+                                </p>
+                                <p class="text-sm text-gray-500">Client</p>
                             </div>
                         </div>
+
+                        <a href="<?= url('/messages/inbox.php') ?>" class="block w-full px-4 py-2 border border-purple-600 text-purple-600 text-center rounded-full font-semibold hover:bg-purple-50 transition">
+                            Send Message
+                        </a>
+                    </div>
+
+                    <!-- Submit Proposal Button -->
+                    <?php if (!$existingProposal && $brief['status'] === 'open'): ?>
+                        <button onclick="showProposalModal()" class="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-2xl font-bold text-lg hover:opacity-90 transition shadow-lg">
+                            Submit Proposal
+                        </button>
+                    <?php elseif ($brief['status'] !== 'open'): ?>
+                        <div class="bg-gray-100 rounded-2xl p-4 text-center">
+                            <p class="text-gray-600 font-semibold">This brief is no longer accepting proposals</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
-
-            <!-- Client Info -->
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">About the Client</h3>
-
-                <div class="flex items-center space-x-3 mb-4">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-purple-800 flex items-center justify-center text-white font-bold">
-                        <?= strtoupper(substr($brief['first_name'], 0, 1) . substr($brief['last_name'], 0, 1)) ?>
-                    </div>
-                    <div>
-                        <p class="font-semibold text-gray-900">
-                            <?= escape_output($brief['first_name'] . ' ' . $brief['last_name']) ?>
-                        </p>
-                        <p class="text-sm text-gray-500">Client</p>
-                    </div>
-                </div>
-
-                <a href="/messages/thread.php?profile_id=<?= $brief['client_profile_id'] ?>" class="block w-full px-4 py-2 border border-purple-600 text-purple-600 text-center rounded-full font-semibold hover:bg-purple-50 transition">
-                    Contact Client
-                </a>
-            </div>
-
-            <!-- Submit Proposal Button -->
-            <?php if (!$existingProposal && $brief['status'] === 'open'): ?>
-                <button onclick="showProposalModal()" class="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-2xl font-bold text-lg hover:opacity-90 transition shadow-lg">
-                    Submit Proposal
-                </button>
-            <?php elseif ($brief['status'] !== 'open'): ?>
-                <div class="bg-gray-100 rounded-2xl p-4 text-center">
-                    <p class="text-gray-600 font-semibold">This brief is no longer accepting proposals</p>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -225,10 +231,10 @@ require_once '../includes/header.php';
 
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Proposed Amount</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Proposed Amount (USD)</label>
                     <div class="relative">
                         <span class="absolute left-4 top-3 text-gray-500">$</span>
-                        <input type="number" name="amount" required min="<?= $brief['budget_min'] / 100 ?>" max="<?= $brief['budget_max'] / 100 ?>" step="0.01" class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="0.00">
+                        <input type="number" name="amount" required min="<?= number_format($brief['budget_min'] / 100, 2, '.', '') ?>" max="<?= number_format($brief['budget_max'] / 100, 2, '.', '') ?>" step="0.01" class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="0.00">
                     </div>
                     <p class="text-xs text-gray-500 mt-1">
                         Client budget: <?= format_money($brief['budget_min']) ?> - <?= format_money($brief['budget_max']) ?>
@@ -277,4 +283,4 @@ document.getElementById('proposalModal').addEventListener('click', function(e) {
 </script>
 <?php endif; ?>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once '../includes/footer2.php'; ?>

@@ -70,10 +70,26 @@ require_once '../includes/header2.php';
 
 <div class="min-h-screen flex bg-[#0f0e16] text-gray-100">
 
-    <?php require_once __DIR__ . '/../includes/sidebar.php'; ?>
+    <?php
+    if ($_SESSION['user_type'] === 'client')
+        require_once __DIR__ . '/../includes/sidebar-client.php';
+    elseif ($_SESSION['user_type'] === 'admin')
+        require_once __DIR__ . '/../includes/sidebar-admin.php';
+    else {
+        require_once __DIR__ . '/../includes/sidebar.php';
+    }
+    ?>
     <div class="flex-1 flex flex-col transition-all duration-300 md:ml-64">
         <!-- Topbar -->
-        <?php include_once '../includes/topbar.php'; ?>
+        <?php
+        if ($_SESSION['user_type'] === 'admin') {
+            include_once '../includes/topbar-admin.php';
+        } elseif ($_SESSION['user_type'] === 'client') {
+            include_once '../includes/topbar-client.php';
+        } else {
+            include_once '../includes/topbar.php';
+        }
+        ?>
         <!-- Header -->
         <div class="px-12 py-6">
             <div class="flex items-center justify-between mb-8">
@@ -215,9 +231,9 @@ require_once '../includes/header2.php';
                             $stmt->close();
 
                             foreach ($users as $user):
-                            ?>
+                                ?>
                                 <option value="<?= $user['id'] ?>">
-                                    <?= escape_output($user['first_name'] . ' ' . $user['last_name']) ?> 
+                                    <?= escape_output($user['first_name'] . ' ' . $user['last_name']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>

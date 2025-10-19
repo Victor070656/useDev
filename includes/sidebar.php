@@ -27,11 +27,12 @@
         <?php
         $navLinks = [
             ['url' => '/creator/index.php', 'icon' => 'bx-grid-alt', 'label' => 'Dashboard', 'page' => 'index.php'],
-            ['url' => '/creator/profile.php', 'icon' => 'bx-user', 'label' => 'Profile', 'page' => 'profile.php'],
-            ['url' => '/creator/proposals.php', 'icon' => 'bx-file', 'label' => 'Proposals', 'page' => 'proposals.php'],
+            ['url' => '/creator/briefs.php', 'icon' => 'bx-search', 'label' => 'Browse Projects', 'page' => 'briefs.php'],
+            ['url' => '/creator/proposals.php', 'icon' => 'bx-file', 'label' => 'My Proposals', 'page' => 'proposals.php'],
             ['url' => '/creator/contracts.php', 'icon' => 'bx-briefcase', 'label' => 'Contracts', 'page' => 'contracts.php'],
             ['url' => '/creator/earnings.php', 'icon' => 'bx-wallet', 'label' => 'Earnings', 'page' => 'earnings.php'],
             ['url' => '/messages/inbox.php', 'icon' => 'bx-message-square-detail', 'label' => 'Messages', 'page' => 'inbox.php'],
+            ['url' => '/creator/profile.php', 'icon' => 'bx-user', 'label' => 'Profile', 'page' => 'profile.php'],
         ];
         $currentPage = basename($_SERVER['PHP_SELF']);
         ?>

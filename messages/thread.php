@@ -34,7 +34,13 @@ $stmt->close();
 // Get all messages between these two users
 $stmt = db_prepare("
     SELECT
-        m.*,
+        m.id,
+        m.sender_user_id,
+        m.recipient_user_id,
+        m.subject,
+        m.message as body,
+        m.is_read,
+        m.created_at,
         sender.first_name as sender_first_name,
         sender.last_name as sender_last_name
     FROM messages m

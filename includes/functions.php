@@ -702,3 +702,24 @@ function reset_user_password($token, $password) {
     }
     return false;
 }
+
+/**
+ * Navigation Helper - Check if current page matches given paths
+ */
+function is_current_page(...$paths) {
+    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+    foreach ($paths as $path) {
+        // Normalize paths
+        $normalizedPath = '/' . trim($path, '/');
+        $normalizedCurrent = '/' . trim($currentPath, '/');
+
+        // Check for exact match or if current path ends with the given path
+        if ($normalizedCurrent === $normalizedPath ||
+            str_ends_with($normalizedCurrent, $normalizedPath)) {
+            return true;
+        }
+    }
+
+    return false;
+}

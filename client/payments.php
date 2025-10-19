@@ -16,9 +16,10 @@ $stmt->close();
 
 // Get payment history (transactions)
 $stmt = db_prepare("
-    SELECT t.*, c.title as contract_title
+    SELECT t.*, pb.title as contract_title
     FROM transactions t
     LEFT JOIN contracts c ON t.contract_id = c.id
+    LEFT JOIN project_briefs pb ON c.project_brief_id = pb.id
     WHERE t.payee_user_id = ?
     ORDER BY t.created_at DESC
     LIMIT 50

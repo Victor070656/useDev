@@ -170,9 +170,9 @@ require_once '../includes/header2.php';
                         <?php if (empty($recentProposals)): ?>
                             <div class="text-center py-12 text-gray-400">
                                 <p>No recent proposals</p>
-                                <a href="<?= url('/briefs.php') ?>"
+                                <a href="<?= url('/creator/briefs.php') ?>"
                                     class="mt-4 inline-block px-4 py-2 rounded-full bg-gradient-to-r from-[#240046] to-[#7103a0] text-white">Browse
-                                    Briefs</a>
+                                    Projects</a>
                             </div>
                         <?php else: ?>
                             <div class="space-y-4">
@@ -215,14 +215,15 @@ require_once '../includes/header2.php';
                         <div class="space-y-3">
                             <a href="<?= url('/creator/profile.php') ?>"
                                 class="block w-full text-left px-3 py-2 rounded-md hover:bg-[#1b1730]">Edit Profile</a>
-                            <a href="<?= url('/briefs.php') ?>"
-                                class="block w-full text-left px-3 py-2 rounded-md hover:bg-[#1b1730]">Browse Briefs</a>
+                            <a href="<?= url('/creator/briefs.php') ?>"
+                                class="block w-full text-left px-3 py-2 rounded-md hover:bg-[#1b1730]">Browse
+                                Projects</a>
                             <a href="<?= url('/creator/earnings.php') ?>"
                                 class="block w-full text-left px-3 py-2 rounded-md hover:bg-[#1b1730]">View Earnings</a>
-                            <a href="<?= url('/creator/courses.php') ?>"
-                                class="block w-full text-left px-3 py-2 rounded-md hover:bg-[#1b1730]">Create Course</a>
-                            <a href="<?= url('/creator/products.php') ?>"
-                                class="block w-full text-left px-3 py-2 rounded-md hover:bg-[#1b1730]">Sell Product</a>
+                            <a href="<?= url('/creator/contracts.php') ?>"
+                                class="block w-full text-left px-3 py-2 rounded-md hover:bg-[#1b1730]">My Contracts</a>
+                            <a href="<?= url('/creator/proposals.php') ?>"
+                                class="block w-full text-left px-3 py-2 rounded-md hover:bg-[#1b1730]">My Proposals</a>
                         </div>
 
                         <!-- Profile completion -->

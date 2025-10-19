@@ -71,7 +71,11 @@
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="<?= url('/browse.php') ?>"
                         class="text-gray-700 hover:text-purple-600 text-sm font-medium transition">
-                        Project Deals
+                        Browse Creators
+                    </a>
+                    <a href="<?= url('/briefs.php') ?>"
+                        class="text-gray-700 hover:text-purple-600 text-sm font-medium transition">
+                        Browse Projects
                     </a>
                     <a href="<?= url('/pricing.php') ?>"
                         class="text-gray-700 hover:text-purple-600 text-sm font-medium transition">
@@ -145,8 +149,9 @@
                         class="absolute top-16 left-0 right-0 bg-white border-t border-gray-200 shadow-md z-40">
                         <div class="p-4 space-y-2">
                             <a href="<?= url('/browse.php') ?>"
-                                class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-purple-50 hover:text-purple-600 text-sm">Project
-                                Deals</a>
+                                class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-purple-50 hover:text-purple-600 text-sm">Browse Creators</a>
+                            <a href="<?= url('/briefs.php') ?>"
+                                class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-purple-50 hover:text-purple-600 text-sm">Browse Projects</a>
                             <a href="<?= url('/pricing.php') ?>"
                                 class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-purple-50 hover:text-purple-600 text-sm">Pricing</a>
 

@@ -25,15 +25,21 @@ define('SMTP_PASS', '');
 define('SMTP_ENCRYPTION', 'tls'); // tls | ssl
 
 // Payment Providers
-define('STRIPE_ENABLED', true);
+define('STRIPE_ENABLED', false);
 define('STRIPE_PUBLIC_KEY', 'pk_test_...');
 define('STRIPE_SECRET_KEY', 'sk_test_...');
 define('STRIPE_WEBHOOK_SECRET', 'whsec_...');
 
-define('PAYPAL_ENABLED', true);
+define('PAYPAL_ENABLED', false);
 define('PAYPAL_MODE', 'sandbox'); // sandbox | live
 define('PAYPAL_CLIENT_ID', '');
 define('PAYPAL_CLIENT_SECRET', '');
+
+// Paystack Configuration
+define('PAYSTACK_ENABLED', true);
+define('PAYSTACK_PUBLIC_KEY', 'pk_test_...'); // Replace with your Paystack public key
+define('PAYSTACK_SECRET_KEY', 'sk_test_...'); // Replace with your Paystack secret key
+define('PAYSTACK_MODE', 'test'); // test | live
 
 // AI Configuration (for matching engine)
 define('AI_ENABLED', false);

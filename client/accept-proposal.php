@@ -84,7 +84,12 @@ try {
     $stmt->execute();
     $stmt->close();
 
-    // 3. Create a contract
+    // 3. Create a contract with platform fee calculation
+    $contractAmount = $proposal['proposed_budget'];
+    $platformFeePercentage = PLATFORM_FEE_PERCENTAGE; // 10% from config
+    $platformFee = round($contractAmount * ($platformFeePercentage / 100));
+    $creatorPayout = $contractAmount - $platformFee;
+
     $stmt = db_prepare("
         INSERT INTO contracts (
             client_profile_id,
@@ -92,13 +97,21 @@ try {
             project_brief_id,
             proposal_id,
             contract_amount,
+            platform_fee,
+            creator_payout,
             status,
-            start_date,
-            created_at
-        ) VALUES (?, ?, ?, ?, ?, 'active', NOW(), NOW())
+            start_date
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, 'active', NOW())
     ");
-    $status = 'active';
-    $stmt->bind_param('iiiis', $clientProfile['id'], $proposal['creator_profile_id'], $proposal['project_brief_id'], $proposalId, $proposal['proposed_budget'], $status);
+    $stmt->bind_param('iiiiiii',
+        $clientProfile['id'],
+        $proposal['creator_profile_id'],
+        $proposal['project_brief_id'],
+        $proposalId,
+        $contractAmount,
+        $platformFee,
+        $creatorPayout
+    );
     $stmt->execute();
     $contractId = $db->insert_id;
     $stmt->close();

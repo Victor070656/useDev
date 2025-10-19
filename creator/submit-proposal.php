@@ -46,6 +46,21 @@ if (!empty($errors)) {
 
 $db = get_db_connection();
 
+// Get creator profile
+$stmt = db_prepare("SELECT id FROM creator_profiles WHERE user_id = ?");
+$stmt->bind_param('i', $creatorId);
+$stmt->execute();
+$creatorProfile = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
+if (!$creatorProfile) {
+    set_flash('error', 'Creator profile not found. Please complete your profile first.');
+    redirect('/creator/profile.php');
+    exit;
+}
+
+$creatorProfileId = $creatorProfile['id'];
+
 // Check if brief exists and is open
 $stmt = db_prepare("SELECT id, client_profile_id, budget_min, budget_max, status FROM project_briefs WHERE id = ?");
 $stmt->bind_param('i', $briefId);
